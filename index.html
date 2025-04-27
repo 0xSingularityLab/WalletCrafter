@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle">钱包工坊 - 一键生成多链钱包（BTC/ETH(EVM)/TRON/SOL/BCH/SUI/DOGE）</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #222;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.6em;
+      font-weight: 600;
+      margin: 32px 0 24px 0;
+      letter-spacing: 0.02em;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 16px;
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      text-align: center;
+    }
+
+    button, input[type="number"], input[type="radio"] {
+      font-size: 1rem;
+      padding: 10px 16px;
+      margin: 8px 4px;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      background: #fafbfc;
+      color: #222;
+      outline: none;
+      transition: border 0.2s, background 0.2s;
+    }
+
+    button, .copy-button {
+      background: #2563eb;         /* 主按钮蓝色 */
+      color: #fff;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: background 0.2s, color 0.2s;
+      min-width: 90px;
+      padding: 10px 16px;
+    }
+
+    button:hover, .copy-button:hover {
+      background: #1d4fd7;         /* 深一点的蓝色 */
+      color: #fff;
+    }
+
+    input[type="number"] {
+      width: 70px;
+      text-align: center;
+      background: #fafbfc;
+      border: 1px solid #e0e0e0;
+    }
+
+    input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+      accent-color: #222;
+    }
+
+    label, label span, .radio-group span {
+      font-size: 1rem;
+      margin: 0 4px;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      max-width: 98vw;
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: none;
+      font-size: 0.92rem;
+      table-layout: fixed;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 6px 2px;
+      border-bottom: 1px solid #eee;
+      background: none;
+      word-break: break-all;
+      white-space: pre-line;
+      vertical-align: middle;
+      font-size: 0.92rem;
+    }
+
+    th {
+      color: #888;
+      font-weight: 500;
+      background: none;
+    }
+
+    .copy-button {
+      background: transparent;
+      color: #2563eb;
+      text-decoration: underline;
+      min-width: unset;
+      padding: 0 4px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      border: none;
+    }
+    .copy-button:hover {
+      background: transparent;
+      color: #1d4fd7;
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.2em;
+        margin: 24px 0 16px 0;
+      }
+      table {
+        font-size: 0.92rem;
+      }
+      th, td {
+        padding: 6px 2px;
+      }
+      button, input[type="number"] {
+        font-size: 0.95rem;
+        padding: 8px 10px;
+      }
+      .container {
+        padding: 0 4px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      table {
+        font-size: 0.88rem;
+        max-width: 100vw;
+      }
+      th, td {
+        padding: 4px 1px;
+        font-size: 0.88rem;
+      }
+    }
+
+    #walletList {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .wallet-card {
+      border: 2px solid #2563eb;
+      border-radius: 16px;
+      padding: 18px 16px 12px 16px;
+      background: #f8fafc;
+      box-shadow: 0 2px 8px 0 #e0e7ef33;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .wallet-index {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      color: #2563eb;
+    }
+
+    .wallet-field {
+      display: flex;
+      align-items: center;
+      border: 1px solid #e0e7ef;
+      border-radius: 8px;
+      padding: 7px 10px;
+      margin-bottom: 8px;
+      background: #fff;
+      font-size: 0.98em;
+      word-break: break-all;
+    }
+
+    .field-label {
+      min-width: 120px;
+      color: #555;
+      font-weight: 500;
+      margin-right: 8px;
+    }
+
+    .field-value {
+      flex: 1;
+      color: #222;
+      font-family: monospace;
+      font-size: 0.98em;
+      margin-right: 8px;
+    }
+
+    .top-card {
+      margin-bottom: 32px;
+      background: #f1f5fa;
+      box-shadow: 0 2px 8px 0 #e0e7ef22;
+    }
+    .top-card h1 {
+      margin-top: 0;
+    }
+
+    #mainTitle1 {
+      font-size: 2em;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+    #mainTitle2 {
+      font-size: 1.15em;
+      font-weight: 500;
+      color: #222;
+      margin-bottom: 8px;
+    }
+    #mainTitle3 {
+      font-size: 1em;
+      font-weight: 400;
+      color: #666;
+      margin-bottom: 18px;
+      letter-spacing: 0.01em;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="wallet-card top-card">
+  <h1 id="mainTitle1">钱包工坊</h1>
+  <h1 id="mainTitle2">一键生成多链钱包（BTC/ETH/TRON/SOL/BCH/SUI/DOGE）</h1>
+  <h1 id="mainTitle3">无需联网，保存网页本地打开也可以生成钱包。</h1>
+
+  <div style="margin-bottom:10px;">
+    <button id="uiLangZh">中文</button>
+    <button id="uiLangEn">英文</button>
+  </div>
+
+  <div>
+    <label id="labelCount" for="mnemonicCount">生成助记词数量：</label>
+    <input type="number" id="mnemonicCount" value="1" min="1" style="width: 50px;">
+    <button id="generateBtn">生成助记词</button>
+  </div>
+
+  <br>
+  <div class="radio-group" id="mnemonicLangGroup">
+    <span id="labelMnemonicLang">助记词语言：</span>
+    <label>
+      <input type="radio" name="mnLang" value="en" checked>
+      <span id="labelEnRadio">英文助记词</span>
+    </label>
+    <label>
+      <input type="radio" name="mnLang" value="zh">
+      <span id="labelZhRadio">中文助记词</span>
+    </label>
+  </div>
+</div>
+
+<div id="walletList"></div>
+
+<div id="copyTip" style="display:none;position:fixed;top:30px;left:50%;transform:translateX(-50%);background:#2563eb;color:#fff;padding:8px 24px;border-radius:16px;z-index:9999;font-size:1.1em;box-shadow:0 2px 8px #2563eb22;">复制成功</div>
+
+<!-- 再加载你自己的 bundle -->
+<script src="./bundle.umd.js"></script>
+
+
+<script>
+  //===============================================
+  // 1. 界面多语言文本
+  //===============================================
+  const translations = {
+    zh: {
+      pageTitle: "钱包工坊 - 一键生成多链钱包（BTC/ETH(EVM)/TRON/SOL/BCH/SUI/DOGE）",
+      mainTitle1: "钱包工坊",
+      mainTitle2: "一键生成多链钱包（BTC/ETH/TRON/SOL/BCH/SUI/DOGE）",
+      mainTitle3: "无需联网，保存网页本地打开也可以生成钱包。",
+      labelCount: "生成助记词数量：",
+      btnGenerate: "生成助记词",
+      labelMnemonicLang: "助记词语言：",
+      labelZhRadio: "中文助记词",
+      labelEnRadio: "英文助记词",
+      uiLangZh: "中文",
+      uiLangEn: "英文",
+      copy: "复制",
+      copyAll: "复制当前信息",
+      copySuccess: "复制成功",
+    },
+    en: {
+      pageTitle: "WalletCrafter - Craft your multichain wallet in seconds (BTC/ETH(EVM)/TRON/SOL/BCH/SUI/DOGE)",
+      mainTitle1: "WalletCrafter",
+      mainTitle2: "Create multi-chain wallets in one click (BTC/ETH/TRON/SOL/BCH/SUI/DOGE)",
+      mainTitle3: "Works offline — you can also save and open locally to create wallets.",
+      labelCount: "Number of mnemonics:",
+      btnGenerate: "Generate",
+      labelMnemonicLang: "Mnemonic Language:",
+      labelZhRadio: "Chinese Mnemonic",
+      labelEnRadio: "English Mnemonic",
+      uiLangZh: "Chinese",
+      uiLangEn: "English",
+      copy: "Copy",
+      copyAll: "Copy All",
+      copySuccess: "Copied!",
+    }
+  };
+
+  // 当前界面语言
+  let currentUILang = 'zh';
+
+  function updateUI(lang) {
+    document.title = translations[lang].pageTitle;
+    document.getElementById("pageTitle").textContent = translations[lang].pageTitle;
+    document.getElementById("mainTitle1").textContent = translations[lang].mainTitle1;
+    document.getElementById("mainTitle2").textContent = translations[lang].mainTitle2;
+    document.getElementById("mainTitle3").textContent = translations[lang].mainTitle3;
+    document.getElementById("labelCount").textContent = translations[lang].labelCount;
+    document.getElementById("generateBtn").textContent = translations[lang].btnGenerate;
+    document.getElementById("labelMnemonicLang").textContent = translations[lang].labelMnemonicLang;
+    document.getElementById("labelZhRadio").textContent = translations[lang].labelZhRadio;
+    document.getElementById("labelEnRadio").textContent = translations[lang].labelEnRadio;
+    document.getElementById("uiLangZh").textContent = translations[lang].uiLangZh;
+    document.getElementById("uiLangEn").textContent = translations[lang].uiLangEn;
+  }
+
+  // DOM 元素
+  const mnemonicCountInput = document.getElementById('mnemonicCount');
+  const generateBtn = document.getElementById('generateBtn');
+  const resultTableBody = document.querySelector('#resultTable tbody');
+
+  const uiLangZhBtn = document.getElementById('uiLangZh');
+  const uiLangEnBtn = document.getElementById('uiLangEn');
+
+  // 1. 在全局声明 wallets
+  let wallets = [];
+
+  // 2. 修改 renderWallets，接收参数 isNew
+  function renderWallets(isNew = false) {
+    const count = parseInt(mnemonicCountInput.value, 10) || 1;
+    const walletList = document.getElementById('walletList');
+    walletList.innerHTML = '';
+
+    // 只有在 isNew 为 true 时才生成新数据
+    if (isNew) {
+      wallets = [];
+      for (let i = 0; i < count; i++) {
+        const { mnemonic, btcLegacyAddr, btcAddr, ethAddr, tronAddr, solAddr, bchCashAddr, suiAddr, dogeAddr } = generateOneWallet();
+        wallets.push({ mnemonic, btcLegacyAddr, btcAddr, ethAddr, tronAddr, solAddr, bchCashAddr, suiAddr, dogeAddr });
+      }
+    }
+
+    // 渲染卡片（用 wallets 里的数据）
+    for (let i = 0; i < wallets.length; i++) {
+      const w = wallets[i];
+      const card = document.createElement('div');
+      card.className = 'wallet-card';
+      card.innerHTML = `
+        <div class="wallet-index">
+          序号：${i + 1}
+          <button class="copy-all-btn" data-index="${i}">${translations[currentUILang].copyAll}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">助记词(12词)：</span><span class="field-value">${w.mnemonic}</span>
+          <button class="copy-button" data-copy="${w.mnemonic}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">BTC 隔离见证地址：</span><span class="field-value">${w.btcAddr}</span>
+          <button class="copy-button" data-copy="${w.btcAddr}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">BTC Legacy地址：</span><span class="field-value">${w.btcLegacyAddr}</span>
+          <button class="copy-button" data-copy="${w.btcLegacyAddr}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">ETH 地址(EVM)：</span><span class="field-value">${w.ethAddr}</span>
+          <button class="copy-button" data-copy="${w.ethAddr}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">TRON 地址：</span><span class="field-value">${w.tronAddr}</span>
+          <button class="copy-button" data-copy="${w.tronAddr}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">Solana 地址：</span><span class="field-value">${w.solAddr}</span>
+          <button class="copy-button" data-copy="${w.solAddr}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">BCH 地址：</span><span class="field-value">${w.bchCashAddr}</span>
+          <button class="copy-button" data-copy="${w.bchCashAddr}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">Sui 地址：</span><span class="field-value">${w.suiAddr || ''}</span>
+          <button class="copy-button" data-copy="${w.suiAddr || ''}">${translations[currentUILang].copy}</button>
+        </div>
+        <div class="wallet-field"><span class="field-label">DOGE 地址：</span><span class="field-value">${w.dogeAddr || ''}</span>
+          <button class="copy-button" data-copy="${w.dogeAddr || ''}">${translations[currentUILang].copy}</button>
+        </div>
+      `;
+      walletList.appendChild(card);
+    }
+
+    // 绑定单个字段复制
+    document.querySelectorAll('.copy-button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const text = e.target.getAttribute('data-copy');
+        navigator.clipboard.writeText(text).then(() => {
+          showCopyTipNearBtn(e.target, translations[currentUILang].copySuccess);
+        });
+      });
+    });
+
+    // 绑定"复制当前信息"
+    document.querySelectorAll('.copy-all-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.getAttribute('data-index'), 10);
+        const w = wallets[idx];
+        const allText =
+          `助记词(12词)：${w.mnemonic}\n` +
+          `BTC 隔离见证地址：${w.btcAddr}\n` +
+          `BTC Legacy地址：${w.btcLegacyAddr}\n` +
+          `ETH 地址(EVM)：${w.ethAddr}\n` +
+          `TRON 地址：${w.tronAddr}\n` +
+          `Solana 地址：${w.solAddr}\n` +
+          `BCH 地址：${w.bchCashAddr}\n` +
+          `Sui 地址：${w.suiAddr || ''}\n` +
+          `DOGE 地址：${w.dogeAddr || ''}`;
+        navigator.clipboard.writeText(allText).then(() => {
+          showCopyTipNearBtn(e.target, translations[currentUILang].copySuccess);
+        });
+      });
+    });
+  }
+
+  // 3. 生成按钮事件，传 true
+  generateBtn.addEventListener('click', () => renderWallets(true));
+
+  // 4. 切换语言时，只刷新UI和卡片，不生成新数据
+  uiLangZhBtn.addEventListener('click', () => {
+    currentUILang = 'zh';
+    updateUI(currentUILang);
+    renderWallets(false);
+  });
+  uiLangEnBtn.addEventListener('click', () => {
+    currentUILang = 'en';
+    updateUI(currentUILang);
+    renderWallets(false);
+  });
+
+  // 5. 页面加载时不自动生成钱包
+
+  //===============================================
+  // 生成单个钱包 (BTC/ETH/Tron/SOL)，12词助记词
+  function generateOneWallet() {
+    // 读取助记词语言单选
+    const checked = document.querySelector('input[name="mnLang"]:checked');
+    const mnemonicLang = checked ? checked.value : 'en';
+
+    // 1) 生成12词助记词 (128位熵)
+    let mnemonic;
+    if (
+      mnemonicLang === 'zh' &&
+      window.MyLibrary.bip39.wordlists &&
+      window.MyLibrary.bip39.wordlists.chinese_simplified
+    ) {
+      mnemonic = window.MyLibrary.bip39.generateMnemonic(
+        128,
+        undefined,
+        window.MyLibrary.bip39.wordlists.chinese_simplified
+      );
+    } else {
+      mnemonic = window.MyLibrary.bip39.generateMnemonic(128);
+    }
+
+    // 2) 助记词 -> 种子
+    const seed = window.MyLibrary.bip39.mnemonicToSeedSync(mnemonic);
+
+    // ========== BTC (Native SegWit) ==========
+    const bitcoin = window.MyLibrary.bitcoinjsLib;
+    const rootBTC = bitcoin.bip32.fromSeed(seed);
+
+    // BIP84 路径: m/84'/0'/0'/0/0
+    const childBTC = rootBTC.derivePath("m/84'/0'/0'/0/0");
+
+    const { address: btcAddr } = bitcoin.payments.p2wpkh({
+      pubkey: childBTC.publicKey,
+      network: bitcoin.networks.bitcoin, // 如果是测试网，可以改为 bitcoin.networks.testnet
+    });
+
+    // ========== BTC 普通地址（P2PKH，m/44'/0'/0'/0/0，1开头） ==========
+    const childBTCLegacy = rootBTC.derivePath("m/44'/0'/0'/0/0");
+    const { address: btcLegacyAddr } = bitcoin.payments.p2pkh({
+      pubkey: childBTCLegacy.publicKey,
+      network: bitcoin.networks.bitcoin,
+    });
+
+    // ========== ETH ==========
+    // 改用 HDNodeWallet.fromSeed
+    const ethWallet = window.MyLibrary.ethers.HDNodeWallet.fromSeed(seed);
+    const derivedWallet = ethWallet.derivePath("m/44'/60'/0'/0/0");
+    const ethAddr = derivedWallet.address;
+
+
+    // ========== TRON ==========
+    const childTRON = ethWallet.derivePath("m/44'/195'/0'/0/0");
+    const tronPrivKey = childTRON.privateKey.replace(/^0x/, '');
+    const tronWeb = window.MyLibrary.TronWeb;
+    const tronAddr = tronWeb.TronWeb.address.fromPrivateKey(tronPrivKey);
+
+    // ========== Solana ==========
+    const solanaWeb3 = window.MyLibrary.solanaWeb3;
+    const derivePath = window.MyLibrary.derivePath;
+    const solanaPath = "m/44'/501'/0'/0'";
+    const { key } = derivePath(solanaPath, seed.toString('hex')); // 从种子生成密钥
+    const solKeypair = solanaWeb3.Keypair.fromSeed(key.slice(0, 32)); // Ed25519 秘钥需要 32 字节
+    const solAddr = solKeypair.publicKey.toBase58(); // 转为 Base58 地址
+
+    // ========== BCH 地址（CashAddr，m/44'/145'/0'/0/0） ==========
+    const rootBCH = bitcoin.bip32.fromSeed(seed);
+    const childBCH = rootBCH.derivePath("m/44'/145'/0'/0/0");
+    const { address: bchLegacyAddr } = bitcoin.payments.p2pkh({
+      pubkey: childBCH.publicKey,
+      network: {
+        messagePrefix: '\x18Bitcoin Signed Message:\n',
+        bech32: null,
+        bip32: { public: 0x0488b21e, private: 0x0488ade4 },
+        pubKeyHash: 0x00,
+        scriptHash: 0x05,
+        wif: 0x80,
+      }
+    });
+
+    let bchCashAddr = bchLegacyAddr;
+    if (window.MyLibrary.bchaddrjs && typeof window.MyLibrary.bchaddrjs.toCashAddress === 'function') {
+      bchCashAddr = window.MyLibrary.bchaddrjs.toCashAddress(bchLegacyAddr);
+    }
+    bchCashAddr = bchCashAddr.replace(/^bitcoincash:/i, '');
+    bchCashAddr = 'bitcoincash:' + bchCashAddr;
+
+    // ========== Sui 地址（m/44'/784'/0'/0'/0'） ==========
+    const suiPath = "m/44'/784'/0'/0'/0'";
+    const suiSeed = window.MyLibrary.derivePath(suiPath, seed.toString('hex')).key;
+    let suiAddr = '';
+    if (window.MyLibrary.suiEd25519Keypair && window.MyLibrary.suiEd25519Keypair.fromSecretKey) {
+      const suiKeypair = window.MyLibrary.suiEd25519Keypair.fromSecretKey(suiSeed);
+      suiAddr = suiKeypair.getPublicKey().toSuiAddress();
+    }
+
+    // ========== DOGE 地址（m/44'/3'/0'/0/0） ==========
+    const dogeNetwork = {
+      messagePrefix: '\x19Dogecoin Signed Message:\n',
+      bech32: null,
+      bip32: { public: 0x02facafd, private: 0x02fac398 },
+      pubKeyHash: 0x1e,
+      scriptHash: 0x16,
+      wif: 0x9e,
+    };
+    const rootDOGE = bitcoin.bip32.fromSeed(seed, dogeNetwork);
+    const childDOGE = rootDOGE.derivePath("m/44'/3'/0'/0/0");
+    const { address: dogeAddr } = bitcoin.payments.p2pkh({
+      pubkey: childDOGE.publicKey,
+      network: dogeNetwork,
+    });
+
+    // 返回结果
+    return {
+      mnemonic,
+      btcLegacyAddr,
+      btcAddr,
+      bchCashAddr,
+      ethAddr,
+      tronAddr,
+      solAddr,
+      suiAddr,
+      dogeAddr,
+    };
+  }
+
+  const bitcoincash = window.MyLibrary.bitcoincashjs;
+  const bchaddrjs = window.MyLibrary.bchaddrjs;
+
+
+  // base64标准编码（非url）
+  function toBase64(bytes) {
+    // 浏览器环境
+    if (typeof window !== 'undefined' && window.btoa) {
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return window.btoa(binary);
+    }
+    // Node.js
+    return Buffer.from(bytes).toString('base64');
+  }
+
+  // 生成标准TON地址（如UQ.../EQ...）
+  function getTonWalletV4Address(publicKey, wc = 0) {
+    // 1. 构造data cell（标准钱包v4R2，seqno=0）
+    const dataCell = new Uint8Array(34);
+    dataCell[0] = 0;
+    dataCell.set(publicKey, 1);
+    dataCell[33] = 0;
+
+    // 2. sha256
+    // 用js-sha256
+    // import { sha256 } from 'js-sha256';
+    const { sha256 } = require('js-sha256'); // 或ESM方式
+    const dataHash = Uint8Array.from(sha256.array(dataCell));
+
+    // 3. 拼接workchain和hash
+    // 标准TON地址格式: tag(0x51) + wc(1字节) + hash(32字节) + crc16(2字节)
+    const tag = 0x51; // bounceable, 主网
+    const addrBytes = new Uint8Array(1 + 1 + 32);
+    addrBytes[0] = tag;
+    addrBytes[1] = wc & 0xff;
+    addrBytes.set(dataHash, 2);
+
+    // 4. 计算crc16
+    function crc16(data) {
+      let crc = 0xffff;
+      for (let i = 0; i < data.length; i++) {
+        crc ^= data[i] << 8;
+        for (let j = 0; j < 8; j++) {
+          if ((crc & 0x8000) !== 0) {
+            crc = (crc << 1) ^ 0x1021;
+          } else {
+            crc <<= 1;
+          }
+          crc &= 0xffff;
+        }
+      }
+      return [(crc >> 8) & 0xff, crc & 0xff];
+    }
+    const checksum = crc16(addrBytes);
+
+    // 5. 拼接最终字节
+    const finalBytes = new Uint8Array(addrBytes.length + 2);
+    finalBytes.set(addrBytes, 0);
+    finalBytes.set(checksum, addrBytes.length);
+
+    // 6. base64编码
+    return toBase64(finalBytes);
+  }
+
+  function showCopyTipNearBtn(btn, msg) {
+    // 先移除已有的
+    let oldTip = btn.parentElement.querySelector('.copy-tip');
+    if (oldTip) oldTip.remove();
+    // 新建
+    const tip = document.createElement('span');
+    tip.className = 'copy-tip';
+    tip.textContent = msg;
+    tip.style.marginLeft = '8px';
+    tip.style.color = '#2563eb';
+    tip.style.fontWeight = 'bold';
+    btn.parentElement.appendChild(tip);
+    setTimeout(() => {
+      tip.remove();
+    }, 1000);
+  }
+
+  // 自动设置年份
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+</script>
+
+<footer id="footer" style="margin:40px 0 20px 0; color:#2563eb; font-size:1.08em; font-weight:600;">
+  © <span id="footerYear"></span> Powered by 
+  <a href="https://www.singularitylab.top/" target="_blank" style="color:#2563eb; text-decoration:underline;">Singularity Lab</a>
+</footer>
+
+</body>
+</html>
