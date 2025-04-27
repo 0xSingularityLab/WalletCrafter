@@ -2,6 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="pageTitle">钱包工坊 - 一键生成多链钱包（BTC/ETH(EVM)/TRON/SOL/BCH/SUI/DOGE）</title>
   <link rel="icon" href="./favicon.png" type="image/x-icon">
   <style>
@@ -160,6 +161,48 @@
       }
     }
 
+    @media (max-width: 480px) {
+      .wallet-card {
+        padding: 12px 4px 8px 4px;
+        border-radius: 10px;
+        font-size: 0.98em;
+      }
+      .wallet-field {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 6px 4px;
+        font-size: 0.98em;
+      }
+      .field-label {
+        min-width: unset;
+        margin-bottom: 2px;
+        font-size: 1em;
+      }
+      .field-value {
+        margin-right: 0;
+        font-size: 0.98em;
+        word-break: break-all;
+      }
+      button, .copy-button, input[type="number"] {
+        font-size: 1em;
+        padding: 8px 8px;
+        margin: 6px 2px;
+        border-radius: 16px;
+      }
+      #mainTitle1 {
+        font-size: 1.1em;
+        gap: 0.2em;
+      }
+      #mainTitle1 img {
+        height: 1.1em;
+        width: 1.1em;
+      }
+      .top-card {
+        margin-bottom: 18px;
+        padding: 10px 2px;
+      }
+    }
+
     #walletList {
       display: flex;
       flex-direction: column;
@@ -315,6 +358,16 @@
       copy: "复制",
       copyAll: "复制当前信息",
       copySuccess: "复制成功",
+      fieldIndex: "序号",
+      fieldMnemonic: "助记词(12词)：",
+      fieldBTC: "BTC 隔离见证：",
+      fieldBTCLegacy: "BTC Legacy：",
+      fieldETH: "ETH 以太坊(EVM)：",
+      fieldTRON: "TRON (TRX)：",
+      fieldSOL: "Solana：",
+      fieldBCH: "BCH：",
+      fieldSUI: "Sui：",
+      fieldDOGE: "DOGE：",
     },
     en: {
       pageTitle: "WalletCrafter - Craft your multichain wallet in seconds (BTC/ETH(EVM)/TRON/SOL/BCH/SUI/DOGE)",
@@ -331,6 +384,16 @@
       copy: "Copy",
       copyAll: "Copy All",
       copySuccess: "Copied!",
+      fieldIndex: "Number",
+      fieldMnemonic: "Mnemonic (12 words):",
+      fieldBTC: "BTC SegWit:",
+      fieldBTCLegacy: "BTC Legacy:",
+      fieldETH: "ETH (EVM):",
+      fieldTRON: "TRON:",
+      fieldSOL: "Solana:",
+      fieldBCH: "BCH:",
+      fieldSUI: "Sui:",
+      fieldDOGE: "DOGE:",
     }
   };
 
@@ -385,34 +448,34 @@
       card.className = 'wallet-card';
       card.innerHTML = `
         <div class="wallet-index">
-          序号：${i + 1}
+          ${translations[currentUILang].fieldIndex}：${i + 1}
           <button class="copy-all-btn" data-index="${i}">${translations[currentUILang].copyAll}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">助记词(12词)：</span><span class="field-value">${w.mnemonic}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldMnemonic}</span><span class="field-value">${w.mnemonic}</span>
           <button class="copy-button" data-copy="${w.mnemonic}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">BTC 隔离见证地址：</span><span class="field-value">${w.btcAddr}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldBTC}</span><span class="field-value">${w.btcAddr}</span>
           <button class="copy-button" data-copy="${w.btcAddr}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">BTC Legacy地址：</span><span class="field-value">${w.btcLegacyAddr}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldBTCLegacy}</span><span class="field-value">${w.btcLegacyAddr}</span>
           <button class="copy-button" data-copy="${w.btcLegacyAddr}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">ETH 地址(EVM)：</span><span class="field-value">${w.ethAddr}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldETH}</span><span class="field-value">${w.ethAddr}</span>
           <button class="copy-button" data-copy="${w.ethAddr}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">TRON 地址：</span><span class="field-value">${w.tronAddr}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldTRON}</span><span class="field-value">${w.tronAddr}</span>
           <button class="copy-button" data-copy="${w.tronAddr}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">Solana 地址：</span><span class="field-value">${w.solAddr}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldSOL}</span><span class="field-value">${w.solAddr}</span>
           <button class="copy-button" data-copy="${w.solAddr}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">BCH 地址：</span><span class="field-value">${w.bchCashAddr}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldBCH}</span><span class="field-value">${w.bchCashAddr}</span>
           <button class="copy-button" data-copy="${w.bchCashAddr}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">Sui 地址：</span><span class="field-value">${w.suiAddr || ''}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldSUI}</span><span class="field-value">${w.suiAddr || ''}</span>
           <button class="copy-button" data-copy="${w.suiAddr || ''}">${translations[currentUILang].copy}</button>
         </div>
-        <div class="wallet-field"><span class="field-label">DOGE 地址：</span><span class="field-value">${w.dogeAddr || ''}</span>
+        <div class="wallet-field"><span class="field-label">${translations[currentUILang].fieldDOGE}</span><span class="field-value">${w.dogeAddr || ''}</span>
           <button class="copy-button" data-copy="${w.dogeAddr || ''}">${translations[currentUILang].copy}</button>
         </div>
       `;
@@ -434,16 +497,17 @@
       btn.addEventListener('click', (e) => {
         const idx = parseInt(e.target.getAttribute('data-index'), 10);
         const w = wallets[idx];
+        const t = translations[currentUILang];
         const allText =
-          `助记词(12词)：${w.mnemonic}\n` +
-          `BTC 隔离见证地址：${w.btcAddr}\n` +
-          `BTC Legacy地址：${w.btcLegacyAddr}\n` +
-          `ETH 地址(EVM)：${w.ethAddr}\n` +
-          `TRON 地址：${w.tronAddr}\n` +
-          `Solana 地址：${w.solAddr}\n` +
-          `BCH 地址：${w.bchCashAddr}\n` +
-          `Sui 地址：${w.suiAddr || ''}\n` +
-          `DOGE 地址：${w.dogeAddr || ''}`;
+          `${t.fieldMnemonic}${w.mnemonic}\n` +
+          `${t.fieldBTC}${w.btcAddr}\n` +
+          `${t.fieldBTCLegacy}${w.btcLegacyAddr}\n` +
+          `${t.fieldETH}${w.ethAddr}\n` +
+          `${t.fieldTRON}${w.tronAddr}\n` +
+          `${t.fieldSOL}${w.solAddr}\n` +
+          `${t.fieldBCH}${w.bchCashAddr}\n` +
+          `${t.fieldSUI}${w.suiAddr || ''}\n` +
+          `${t.fieldDOGE}${w.dogeAddr || ''}`;
         navigator.clipboard.writeText(allText).then(() => {
           showCopyTipNearBtn(e.target, translations[currentUILang].copySuccess);
         });
@@ -666,7 +730,7 @@
     // 先移除已有的
     let oldTip = btn.parentElement.querySelector('.copy-tip');
     if (oldTip) oldTip.remove();
-    // 新建
+    //o a
     const tip = document.createElement('span');
     tip.className = 'copy-tip';
     tip.textContent = msg;
