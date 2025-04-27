@@ -225,6 +225,15 @@
       color: #2563eb;
       margin-bottom: 10px;
       letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+    }
+    #mainTitle1 img {
+      height: 1.4em;
+      width: 1.4em;
+      display: block;
+      transform: translateY(-0.15em);
     }
     #mainTitle2 {
       font-size: 1.15em;
@@ -245,7 +254,10 @@
 <body>
 
 <div class="wallet-card top-card">
-  <h1 id="mainTitle1">钱包工坊</h1>
+  <h1 id="mainTitle1">
+    <img src="./favicon.png" alt="icon">
+    <span id="mainTitle1Text">钱包工坊</span>
+  </h1>
   <h1 id="mainTitle2">一键生成多链钱包（BTC/ETH/TRON/SOL/BCH/SUI/DOGE）</h1>
   <h1 id="mainTitle3">无需联网，保存网页本地打开也可以生成钱包。</h1>
 
@@ -327,7 +339,7 @@
   function updateUI(lang) {
     document.title = translations[lang].pageTitle;
     document.getElementById("pageTitle").textContent = translations[lang].pageTitle;
-    document.getElementById("mainTitle1").textContent = translations[lang].mainTitle1;
+    document.getElementById("mainTitle1Text").textContent = translations[lang].mainTitle1;
     document.getElementById("mainTitle2").textContent = translations[lang].mainTitle2;
     document.getElementById("mainTitle3").textContent = translations[lang].mainTitle3;
     document.getElementById("labelCount").textContent = translations[lang].labelCount;
