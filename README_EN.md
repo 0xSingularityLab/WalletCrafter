@@ -1,6 +1,6 @@
 # WalletCrafter
 
-[English](https://github.com/0xSingularityLab/WalletCrafter/blob/main/README_EN.md) | [中文教程](hhttps://github.com/0xSingularityLab/WalletCrafter/blob/main/README.md)
+[English](https://github.com/0xSingularityLab/WalletCrafter/blob/main/README_EN.md) | [中文教程](https://github.com/0xSingularityLab/WalletCrafter/blob/main/README.md)
 
 **WalletCrafter** is an open-source multi-chain wallet generator supporting BTC, ETH(EVM), TRON, SOL, BCH, SUI, DOGE and more.  
 All operations are performed locally in your browser — no network required, ensuring maximum security.
