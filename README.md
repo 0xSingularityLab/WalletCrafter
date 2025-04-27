@@ -1,6 +1,6 @@
 # 钱包工坊
 
-[English](https://github.com/0xSingularityLab/WalletCrafter/blob/main/README.md) | [中文教程](hhttps://github.com/0xSingularityLab/WalletCrafter/blob/main/README_EN.md)
+[English](https://github.com/0xSingularityLab/WalletCrafter/blob/main/README_EN.md) | [中文教程](hhttps://github.com/0xSingularityLab/WalletCrafter/blob/main/README.md)
 
 **钱包工坊** 是一个开源的多链钱包生成器，支持 BTC、ETH(EVM)、TRON、SOL、BCH、SUI、DOGE 等主流区块链。  
 本工具完全前端运行，无需联网，支持本地离线使用，安全可靠。
