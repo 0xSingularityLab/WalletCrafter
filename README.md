@@ -1,8 +1,8 @@
-# WalletCrafter
-=======
-# 钱包工坊 WalletCrafter
+# 钱包工坊
 
-**WalletCrafter** 是一个开源的多链钱包生成器，支持 BTC、ETH(EVM)、TRON、SOL、BCH、SUI、DOGE 等主流区块链。  
+[English](https://github.com/0xSingularityLab/WalletCrafter/blob/main/README.md) | [中文教程](hhttps://github.com/0xSingularityLab/WalletCrafter/blob/main/README_EN.md)
+
+**钱包工坊** 是一个开源的多链钱包生成器，支持 BTC、ETH(EVM)、TRON、SOL、BCH、SUI、DOGE 等主流区块链。  
 本工具完全前端运行，无需联网，支持本地离线使用，安全可靠。
 
 ## 主要特色
@@ -14,7 +14,7 @@
 
 ## 使用方法
 
-1. 打开 [WalletCrafter 在线页面](https://wallet.singularitylab.top/)
+1. 打开 [钱包工坊 在线页面](https://wallet.singularitylab.top/)
 2. 选择需要生成的钱包数量和助记词语言
 3. 点击“生成助记词”按钮
 4. 离线保存助记词和地址信息
@@ -29,41 +29,5 @@
 ## 开源协议
 
 MIT License
-
----
-
-## English README.md
-
-```markdown
-# WalletCrafter
-
-**WalletCrafter** is an open-source multi-chain wallet generator supporting BTC, ETH(EVM), TRON, SOL, BCH, SUI, DOGE and more.  
-All operations are performed locally in your browser — no network required, ensuring maximum security.
-
-## Features
-
-- **Multi-chain support**: Instantly generate wallets for BTC/ETH(EVM)/TRON/SOL/BCH/SUI/DOGE
-- **Offline & Secure**: 100% client-side, no data is ever uploaded, works even without internet
-- **Open Source**: Fully open codebase, transparent and auditable
-- **User Friendly**: Clean UI, supports both English and Chinese, suitable for beginners and developers
-
-## How to Use
-
-1. Open [WalletCrafter Online](https://wallet.singularitylab.top/)
-2. Select the number of wallets and mnemonic language
-3. Click the "Generate" button
-4. Save your mnemonic and addresses securely
-
-> You can also save this page and use it offline for maximum security!
-
-## Security Tips
-
-- Always back up your mnemonic securely. Anyone with your mnemonic can control your assets.
-- For best security, generate wallets in an offline environment.
-
-## License
-
-MIT License
-```
 
 ---
