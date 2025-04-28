@@ -293,6 +293,48 @@
       letter-spacing: 0.01em;
     }
 
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 18px 10px;
+      margin: 32px auto 8px auto;
+      max-width: 800px;
+    }
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+      font-size: 1em;
+      margin: 4px 0;
+      transition: color 0.2s;
+    }
+    .social-icons a:hover {
+      color: #1d4fd7;
+    }
+    .social-icons img {
+      width: 30px;
+      height: 30px;
+      margin-right: 6px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 1px 4px #2563eb22;
+    }
+    @media (max-width: 600px) {
+      .social-icons {
+        gap: 10px 4px;
+        font-size: 0.98em;
+      }
+      .social-icons img {
+        width: 26px;
+        height: 26px;
+        margin-right: 4px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -413,6 +455,9 @@
     document.getElementById("labelEnRadio").textContent = translations[lang].labelEnRadio;
     document.getElementById("uiLangZh").textContent = translations[lang].uiLangZh;
     document.getElementById("uiLangEn").textContent = translations[lang].uiLangEn;
+    document.querySelectorAll('.social-icons [data-lang]').forEach(el => {
+      el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
+    });
   }
 
   // DOM 元素
@@ -752,6 +797,45 @@
   © <span id="footerYear"></span> Powered by 
   <a href="https://www.singularitylab.top/" target="_blank" style="color:#2563eb; text-decoration:underline;">Singularity Lab</a>
 </footer>
+
+<!-- 放在 </footer> 之前 -->
+<div class="social-icons">
+  <!-- x -->
+  <a href="https://x.com/SingularityLabX" target="_blank">
+    <img src="assets/twitter.png" alt="X">
+    <span>Twitter/X</span>
+  </a>
+  <!-- warpcast -->
+  <a href="https://warpcast.com/0xsingularitylab" target="_blank">
+    <img src="assets/warpcast.png" alt="Warpcast">
+    <span>Warpcast</span>
+  </a>
+  <!-- telegram -->
+  <a href="https://t.me/slabdao" target="_blank">
+    <img src="assets/telegram.png" alt="Telegram">
+    <span>Telegram</span>
+  </a>
+  <!-- github -->
+  <a href="https://github.com/0xSingularityLab/WalletCrafter" target="_blank">
+    <img src="assets/github.png" alt="Github">
+    <span>Github</span>
+  </a>
+  <!-- medium -->
+  <a href="https://medium.com/@singularitylab" target="_blank">
+    <img src="assets/medium.png" alt="Medium">
+    <span>Medium</span>
+  </a>
+  <!-- discord -->
+  <a href="#" target="_blank">
+    <img src="assets/discord.png" alt="Discord">
+    <span>Discord</span>
+  </a>
+  <!-- linktr.ee -->
+  <a href="https://linktr.ee/singularitylab" target="_blank">
+    <img src="assets/linktree.jpg" alt="Linktr.ee">
+    <span>Linktr.ee</span>
+  </a>
+</div>
 
 </body>
 </html>
